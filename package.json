@@ -1,6 +1,6 @@
 {
   "name": "@mwillbanks/pulumi-aws-lambda-layer-builder",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "license": "MIT",
   "description": "A Pulumi package for building AWS Lambda layers with TypeScript.",
   "keywords": [
@@ -26,6 +26,9 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
@@ -92,5 +95,9 @@
         }
       ]
     }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   }
 }
