@@ -32,32 +32,33 @@ npm install git+ssh://github.com/mwillbanks/pulumi-aws-lambda-layer-builder.git
 
 ```ts
 import * as aws from "@pulumi/aws";
-import { buildLambdaLayer } from "aws-lambda-layer-builder";
+import { buildLambdaLayer } from "@mwillbanks/pulumi-aws-lambda-layer-builder";
 
 const layer = buildLambdaLayer({
   name: "openssl",
-  baseImage: "amazonlinux:2023",
+  imageName: "amazonlinux:2023",
   packages: [
     ["openssl11", "*"],
     ["zip", { bin: true, lib: true }],
   ],
-  runtimes: [aws.lambda.Runtime.NODEJS_18_X],
+  runtimes: [aws.lambda.Runtime.NODEJS_20_X],
   architectures: [aws.lambda.Architecture.X86_64],
 });
 ```
 
 ### Configuration Options
 
-| Option             | Type                                                           | Description                                                                 |
-| ------------------ | -------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `name`             | `string`                                                       | Logical name for the layer (used in directory, image, and layer naming).   |
-| `baseImage`        | `string` &#124; `docker.Image` &#124; `RemoteImage` &#124; `RegistryImage` | Docker base image or existing Pulumi image resource.                       |
-| `packages`         | `[string, LayerBuilderPackageOpts][]`                          | List of packages to install and their extraction filters.                   |
-| `runtimes?`        | `aws.lambda.Runtime[]`                                         | Lambda runtimes that can use this layer. Defaults to none.                 |
-| `architectures?`   | `aws.lambda.Architecture[]`                                    | CPU architectures for the layer. Defaults to none.                         |
-| `prefixProjectName`| `boolean`                                                      | Prepend `<project>-` to the layer name. Default: `true`.                   |
-| `prefixProjectEnv` | `boolean`                                                      | Prepend `<stack>-` to the layer name. Default: `true`.                     |
-
+| Option              | Type                                  | Description                                                              |
+| ------------------- | ------------------------------------- | ------------------------------------------------------------------------ |
+| `name`              | `string`                              | Logical name for the layer (used in directory, image, and layer naming). |
+| `imageName`         | `string`                              | A `docker.RemoteImage` name.                                             |
+| `imageArgs`         | `docker.RemoteImageArgs`              | Additional arguments to supply for `docker.RemoteImage`                  |
+| `packages`          | `[string, LayerBuilderPackageOpts][]` | List of packages to install and their extraction filters.                |
+| `runtimes?`         | `aws.lambda.Runtime[]`                | Lambda runtimes that can use this layer. Defaults to none.               |
+| `architectures?`    | `aws.lambda.Architecture[]`           | CPU architectures for the layer. Defaults to none.                       |
+| `prefixProjectName` | `boolean`                             | Prepend `<project>-` to the layer name. Default: `true`.                 |
+| `prefixProjectEnv`  | `boolean`                             | Prepend `<stack>-` to the layer name. Default: `true`.                   |
+| `awsProvider`       | `aws.Provider`                        | Optional AWS provider when using multiple regions. Default `undefined`   |
 
 **`LayerBuilderPackageOpts`**:
 
@@ -69,10 +70,9 @@ const layer = buildLambdaLayer({
 ## 🔍 How It Works
 
 1. **Dockerfile Rendering**: Builds a tailored Dockerfile using your options and `repoquery` filters.
-2. **Local Build**: Pulumi Docker provider builds the image (`skipPush: true`).
-3. **Extraction**: The container packages `/tmp/layer` into `layer.zip` using `zip`.
-4. **Versioning**: A SHA‑256 of the Dockerfile produces an 8‑character hash to avoid unnecessary rebuilds.
-5. **Publishing**: Pulumi AWS provider publishes a new `aws.lambda.LayerVersion` with the given name, code, runtimes, and architectures.
+2. **Extraction**: The container packages `/tmp/layer` into `layer.zip` using `zip`.
+3. **Versioning**: A SHA‑256 of the Dockerfile produces an 8‑character hash to avoid unnecessary rebuilds.
+4. **Publishing**: Pulumi AWS provider publishes a new `aws.lambda.LayerVersion` with the given name, code, runtimes, and architectures.
 
 ---
 
@@ -98,4 +98,3 @@ const layer = buildLambdaLayer({
 ## 📄 License
 
 MIT © Mike Willbanks
-
