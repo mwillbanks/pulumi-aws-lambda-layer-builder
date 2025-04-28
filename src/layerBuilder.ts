@@ -4,10 +4,20 @@ import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
 
+export interface LayerBuilderImagePackageMgrOpts {
+  repos: {
+    [key: string]: {
+      base: string;
+      packages: string[];
+    };
+  };
+}
+
 export interface LayerBuilderOpts {
   name: string;
   imageName: pulumi.Input<string>;
   imageArgs?: docker.RemoteImageArgs;
+  imagePkgManager: "apt" | "dnf" | "yum";
   runtimes?: aws.lambda.LayerVersionArgs["compatibleRuntimes"];
   architectures?: aws.lambda.LayerVersionArgs["compatibleArchitectures"];
   packages: [string, LayerBuilderPackageOpts][];
@@ -22,6 +32,7 @@ export type LayerBuilderPackageOpts =
       lib?: boolean;
       shared?: boolean;
       conf?: boolean;
+      manualDownloadUrl?: string;
     }
   | "*"
   | undefined;
@@ -39,7 +50,7 @@ export function buildLambdaLayer(
 
   const image = new docker.RemoteImage(`${opts.name}-build`, {
     ...imageArgs,
-    name: opts.imageName,
+    name: imageName,
     build: {
       context: layerDir,
       dockerfile: dockerfile,

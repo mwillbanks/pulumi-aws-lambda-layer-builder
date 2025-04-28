@@ -63,7 +63,7 @@ const layer = buildLambdaLayer({
 **`LayerBuilderPackageOpts`**:
 
 - `"*"` — include _all_ files from the package
-- `{ bin?, lib?, shared?, conf? }` — selectively include only bins, libs (`/usr/lib64`, `/usr/lib`, `/lib`), shares (`/usr/share`), or configs (`/etc`)
+- `{ bin?, lib?, shared?, conf?, manualDownloadUrl? }` — selectively include only bins, libs (`/usr/lib64`, `/usr/lib`, `/lib`), shares (`/usr/share`), or configs (`/etc`) or manually download the package file for installation through a local package manager repository.
 
 ---
 
