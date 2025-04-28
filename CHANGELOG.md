@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.4.0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.3.0...0.4.0) (2025-04-28)
+
+### Features
+
+- manual package installation ([fabe283](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/fabe283665a069bb72498ab18918184eb8852a92))
+
 # [0.3.0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.1.0...0.3.0) (2025-04-22)
 
 ### Features
