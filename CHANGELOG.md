@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.6...0.4.7) (2025-05-01)
+
+### Bug Fixes
+
+- fetch the layer asset, rework vars ([88a706b](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/88a706bd1e827100dd2bd980b347f8ff90c04d2f))
+
 ## [0.4.6](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.5...0.4.6) (2025-05-01)
 
 ### Bug Fixes
