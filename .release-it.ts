@@ -17,8 +17,12 @@ export default {
     release: true,
   },
   hooks: {
+    "after:bump": [
+      "echo 'export default \"${version}\";' > src/version.ts",
+      "NODE_NO_WARNINGS=1 yarn build",
+    ],
     "before:init": ["yarn test"],
-    "after:bump": ["NODE_NO_WARNINGS=1 yarn build"],
+    "before:git:release": ["git add src/version.ts"],
   },
   npm: {
     publish: true,

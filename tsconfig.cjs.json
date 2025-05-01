@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
-    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "types": ["node", "ts-jest"],
+    "moduleResolution": "node",
     "outDir": "dist/cjs",
-    "rootDir": "src"
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2020",
+    "types": ["node", "ts-jest"]
   },
   "include": ["src/**/*.ts"]
 }
