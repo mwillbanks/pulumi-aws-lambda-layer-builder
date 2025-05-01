@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.5.0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.7...0.5.0) (2025-05-01)
+
+### Features
+
+- add include paths option ([7dcad99](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/7dcad9987bfb63f49a5108a799d5436f96e8f699))
+
 ## [0.4.7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.6...0.4.7) (2025-05-01)
 
 ### Bug Fixes
