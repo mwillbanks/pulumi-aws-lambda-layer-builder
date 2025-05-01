@@ -38,7 +38,7 @@
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.json",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build": "rm -rf ./dist && npm run build:cjs && npm run build:esm",
     "lint": "eslint . --ext .ts",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepare": "husky",

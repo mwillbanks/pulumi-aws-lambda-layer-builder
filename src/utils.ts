@@ -41,7 +41,7 @@ function installPackageMgrDependencies(
               `RUN apt-get update`,
             ]
           : []),
-        `RUN apt-get install -y ${packages.join(" ")}`,
+        `RUN apt-get install -y ${normalPackages.join(" ")}`,
       ].join("\n");
     case "yum":
       return [
@@ -58,7 +58,7 @@ function installPackageMgrDependencies(
               `RUN yum makecache`,
             ]
           : []),
-        `RUN yum install -y ${packages.join(" ")}`,
+        `RUN yum install -y ${normalPackages.join(" ")}`,
       ].join("\n");
     case "dnf":
       return [
@@ -75,7 +75,7 @@ function installPackageMgrDependencies(
               `RUN dnf makecache`,
             ]
           : []),
-        `RUN dnf install -y ${packages.join(" ")}`,
+        `RUN dnf install -y ${normalPackages.join(" ")}`,
       ].join("\n");
     default:
       throw new Error(`Unsupported package manager: ${mgr}`);
