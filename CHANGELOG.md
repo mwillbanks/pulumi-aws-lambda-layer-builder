@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.4](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.3...0.4.4) (2025-05-01)
+
+### Bug Fixes
+
+- dockerfile has to be an actual file ([dfcdbbe](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/dfcdbbeb0a73de72a755a410353fe449b95aedb5))
+
 ## [0.4.3](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.2...0.4.3) (2025-05-01)
 
 ### Bug Fixes
