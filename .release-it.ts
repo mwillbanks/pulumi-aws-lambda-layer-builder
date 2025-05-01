@@ -18,7 +18,7 @@ export default {
   },
   hooks: {
     "before:init": ["yarn test"],
-    "after:bump": ["yarn build --suppress-warnings"],
+    "after:bump": ["NODE_NO_WARNINGS=1 yarn build"],
   },
   npm: {
     publish: true,
