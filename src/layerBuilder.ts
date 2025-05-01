@@ -4,7 +4,7 @@ import * as aws from "@pulumi/aws";
 import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync } from "fs";
 
 export interface LayerBuilderImagePackageMgrOpts {
   repos: {
@@ -39,6 +39,12 @@ export type LayerBuilderPackageOpts =
   | "*"
   | undefined;
 
+const getNodeModulePackageJson = (pkg: string): Record<string, any> => {
+  const pkgPath = require.resolve(`${pkg}/package.json`);
+  const file = readFileSync(pkgPath, { encoding: "utf-8" });
+  return JSON.parse(file);
+};
+
 export function buildLambdaLayer(
   opts: LayerBuilderOpts,
 ): aws.lambda.LayerVersion {
@@ -51,10 +57,13 @@ export function buildLambdaLayer(
   const dockerfilePath = path.join(layerDir, `${versionHash}-Dockerfile`);
   const imageName = pulumi.interpolate`lambda-layer-${opts.name}-${versionHash}`;
   const imageArgs = opts.imageArgs || {};
+  const packageVersion =
+    getNodeModulePackageJson("@mwillbanks/pulumi-layer-builder/package.json")
+      ?.version || "unknown";
 
   const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
     opts.prefixProjectEnv !== false ? stack + "-" : ""
-  }${opts.name}-${versionHash}-${region}`;
+  }${opts.name}-${versionHash}-${region}-${packageVersion}`;
 
   mkdirSync(layerDir, { recursive: true });
   writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
