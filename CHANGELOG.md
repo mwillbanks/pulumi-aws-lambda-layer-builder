@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.3](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.2...0.4.3) (2025-05-01)
+
+### Bug Fixes
+
+- ensure that $HOME is set for docker ([b8117e8](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/b8117e8b32f5e584a85f1b140b52dbbde4653abc))
+
 ## [0.4.2](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.1...0.4.2) (2025-05-01)
 
 ### Bug Fixes
