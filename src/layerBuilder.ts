@@ -5,6 +5,7 @@ import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
 import { mkdirSync, readFileSync, writeFileSync } from "fs";
+import { createRequire } from "module";
 
 export interface LayerBuilderImagePackageMgrOpts {
   repos: {
@@ -40,8 +41,11 @@ export type LayerBuilderPackageOpts =
   | "*"
   | undefined;
 
+const require_ =
+  typeof require !== "undefined" ? require : createRequire(import.meta.url);
+
 const getNodeModulePackageJson = (pkg: string): Record<string, any> => {
-  const pkgPath = require.resolve(`${pkg}/package.json`);
+  const pkgPath = require_.resolve(`${pkg}/package.json`);
   const file = readFileSync(pkgPath, { encoding: "utf-8" });
   return JSON.parse(file);
 };
