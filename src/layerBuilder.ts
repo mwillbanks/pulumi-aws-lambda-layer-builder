@@ -1,8 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
+import { local } from "@pulumi/command";
 import * as aws from "@pulumi/aws";
 import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
+import { mkdirSync } from "fs";
 
 export interface LayerBuilderImagePackageMgrOpts {
   repos: {
@@ -48,6 +50,8 @@ export function buildLambdaLayer(
   const imageName = pulumi.interpolate`lambda-layer-${opts.name}-${versionHash}`;
   const imageArgs = opts.imageArgs || {};
 
+  mkdirSync(layerDir, { recursive: true });
+
   const image = new docker.RemoteImage(`${opts.name}-build`, {
     ...imageArgs,
     name: imageName,
@@ -57,7 +61,33 @@ export function buildLambdaLayer(
     },
   });
 
+  const containerName = `${opts.name}-extract-${versionHash}`;
+  const container = new docker.Container(
+    `${opts.name}-extract`,
+    {
+      name: containerName,
+      image: image.repoDigest,
+      mustRun: true,
+      rm: true,
+      command: ["sleep", "10"], // Keep container alive briefly to extract file
+    },
+    {
+      dependsOn: [image],
+    },
+  );
   const zipPath = path.join(layerDir, `${opts.name}.zip`);
+  const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer/${opts.name}.zip ${layerDir}/${opts.name}.zip`;
+  const extractFile = new local.Command(
+    `${opts.name}-extract-file`,
+    {
+      create: extractCommand,
+      update: extractCommand,
+      delete: pulumi.interpolate`rm -f ${zipPath}`,
+    },
+    {
+      dependsOn: [container],
+    },
+  );
   const archive = new pulumi.asset.FileArchive(zipPath);
 
   const fullName = `${opts.prefixProjectName !== false ? project + "-" : ""}${

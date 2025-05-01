@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@pulumi/aws": "^6.77.1",
+    "@pulumi/command": "^1.0.3",
     "@pulumi/docker": "^4.6.2"
   },
   "devDependencies": {
