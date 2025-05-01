@@ -97,6 +97,7 @@ export function renderDockerfile(opts: LayerBuilderOpts): string {
     } else if (config) {
       const patterns: string[] = [];
       if (config.bin) patterns.push("^/usr/bin/", "^/bin/");
+      if (config.include) patterns.push("^/usr/include/", "^/include/");
       if (config.lib) patterns.push("^/usr/lib64/", "^/usr/lib/", "^/lib/");
       if (config.shared) patterns.push("^/usr/share/");
       if (config.conf) patterns.push("^/etc/");

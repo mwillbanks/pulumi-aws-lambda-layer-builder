@@ -18,7 +18,7 @@ export interface LayerBuilderImagePackageMgrOpts {
 export interface LayerBuilderOpts {
   name: string;
   imageName: pulumi.Input<string>;
-  imageArgs?: docker.RemoteImageArgs;
+  imageArgs?: docker.ImageArgs;
   imagePkgManager: "apt" | "dnf" | "yum";
   runtimes?: aws.lambda.LayerVersionArgs["compatibleRuntimes"];
   architectures?: aws.lambda.LayerVersionArgs["compatibleArchitectures"];
@@ -31,10 +31,11 @@ export interface LayerBuilderOpts {
 export type LayerBuilderPackageOpts =
   | {
       bin?: boolean;
-      lib?: boolean;
-      shared?: boolean;
       conf?: boolean;
+      include?: boolean;
+      lib?: boolean;
       manualDownloadUrl?: string;
+      shared?: boolean;
     }
   | "*"
   | undefined;
@@ -52,10 +53,10 @@ export function buildLambdaLayer(
   const stack = pulumi.getStack();
   const region = opts.awsProvider?.region || "default";
   const layerDir = path.join("layers", opts.name);
+  mkdirSync(layerDir, { recursive: true });
   const dockerfileContents = renderDockerfile(opts);
   const versionHash = hashContent(dockerfileContents);
   const dockerfilePath = path.join(layerDir, `${versionHash}-Dockerfile`);
-  const imageName = pulumi.interpolate`lambda-layer-${opts.name}-${versionHash}`;
   const imageArgs = opts.imageArgs || {};
   const packageVersion =
     getNodeModulePackageJson("@mwillbanks/pulumi-layer-builder/package.json")
@@ -65,7 +66,11 @@ export function buildLambdaLayer(
     opts.prefixProjectEnv !== false ? stack + "-" : ""
   }${opts.name}-${versionHash}-${region}-${packageVersion}`;
 
-  mkdirSync(layerDir, { recursive: true });
+  pulumi.log.info(
+    `Building Lambda Layer ${pulumiResourceBaseName} with Dockerfile: ${dockerfilePath}`,
+  );
+  pulumi.log.info(`Dockerfile contents:\n${dockerfileContents}`);
+
   writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   // if process.env.HOME is not set, set it to the current working directory
@@ -73,18 +78,23 @@ export function buildLambdaLayer(
     process.env.HOME = process.cwd();
   }
 
+  const registryImage = docker.getRegistryImage({
+    name: opts.imageName as string,
+  });
+
   const image = new docker.RemoteImage(`${pulumiResourceBaseName}-build`, {
     ...imageArgs,
-    name: imageName,
+    name: registryImage.then((img) => img.name),
     build: {
       context: layerDir,
-      dockerfile: `${versionHash}-Dockerfile`,
+      dockerfile: dockerfilePath,
     },
+    pullTriggers: [registryImage.then((img) => img.sha256Digest)],
   });
 
   const containerName = `${pulumiResourceBaseName}-extract`;
   const container = new docker.Container(
-    `${opts.name}-extract`,
+    `${containerName}`,
     {
       name: containerName,
       image: image.repoDigest,
@@ -97,29 +107,43 @@ export function buildLambdaLayer(
     },
   );
   const zipPath = path.join(layerDir, `${opts.name}.zip`);
-  const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer/${opts.name}.zip ${layerDir}/${opts.name}.zip`;
-  const extractFile = new local.Command(
+  const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer/${opts.name}.zip ${zipPath}`;
+  const commandResponse = new local.Command(
     `${pulumiResourceBaseName}-copy-zip`,
     {
       create: extractCommand,
-      update: extractCommand,
       delete: pulumi.interpolate`rm -f ${zipPath}`,
+      triggers: [container],
+      assetPaths: [zipPath],
     },
     {
       dependsOn: [container],
     },
   );
-  const archive = new pulumi.asset.FileArchive(zipPath);
 
   const optProvider = opts.awsProvider
     ? { provider: opts.awsProvider }
     : undefined;
 
+  const layerAsset = Object.keys(commandResponse.assets)?.[0];
+  if (!layerAsset) {
+    pulumi.log.error(
+      `No assets found in command response. Check the command output for errors.`,
+    );
+    throw new Error("No assets found in command response.");
+  }
+  const layerAssetPath = commandResponse.assets.apply((assets) => {
+    if (!assets) {
+      throw new Error("No assets found in command response.");
+    }
+    return assets[layerAsset] as pulumi.asset.Asset;
+  });
+
   return new aws.lambda.LayerVersion(
     `${pulumiResourceBaseName}-layer`,
     {
       layerName: pulumiResourceBaseName,
-      code: archive,
+      code: layerAssetPath,
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
