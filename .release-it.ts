@@ -16,6 +16,10 @@ export default {
     },
     release: true,
   },
+  hooks: {
+    "before:init": ["yarn test"],
+    "after:bump": ["yarn build"],
+  },
   npm: {
     publish: true,
   },
