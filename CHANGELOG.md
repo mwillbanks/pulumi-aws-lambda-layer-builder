@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.2](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.1...0.4.2) (2025-05-01)
+
+### Bug Fixes
+
+- extract file from container ([35c3a3b](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/35c3a3bafc810517636c83b7229b2876b1ad5d7e))
+
 ## [0.4.1](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.0...0.4.1) (2025-05-01)
 
 ### Bug Fixes
