@@ -44,15 +44,17 @@ export function buildLambdaLayer(
 ): aws.lambda.LayerVersion {
   const project = pulumi.getProject();
   const stack = pulumi.getStack();
+  const region = opts.awsProvider?.region || "default";
   const layerDir = path.join("layers", opts.name);
   const dockerfileContents = renderDockerfile(opts);
   const versionHash = hashContent(dockerfileContents);
-  const dockerfilePath = path.join(
-    layerDir,
-    `${opts.name}-${versionHash}-Dockerfile`,
-  );
+  const dockerfilePath = path.join(layerDir, `${versionHash}-Dockerfile`);
   const imageName = pulumi.interpolate`lambda-layer-${opts.name}-${versionHash}`;
   const imageArgs = opts.imageArgs || {};
+
+  const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
+    opts.prefixProjectEnv !== false ? stack + "-" : ""
+  }${opts.name}-${versionHash}-${region}`;
 
   mkdirSync(layerDir, { recursive: true });
   writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
@@ -62,16 +64,16 @@ export function buildLambdaLayer(
     process.env.HOME = process.cwd();
   }
 
-  const image = new docker.RemoteImage(`${opts.name}-build`, {
+  const image = new docker.RemoteImage(`${pulumiResourceBaseName}-build`, {
     ...imageArgs,
     name: imageName,
     build: {
       context: layerDir,
-      dockerfile: dockerfilePath,
+      dockerfile: `${versionHash}-Dockerfile`,
     },
   });
 
-  const containerName = `${opts.name}-extract-${versionHash}`;
+  const containerName = `${pulumiResourceBaseName}-extract`;
   const container = new docker.Container(
     `${opts.name}-extract`,
     {
@@ -88,7 +90,7 @@ export function buildLambdaLayer(
   const zipPath = path.join(layerDir, `${opts.name}.zip`);
   const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer/${opts.name}.zip ${layerDir}/${opts.name}.zip`;
   const extractFile = new local.Command(
-    `${opts.name}-extract-file`,
+    `${pulumiResourceBaseName}-copy-zip`,
     {
       create: extractCommand,
       update: extractCommand,
@@ -100,18 +102,14 @@ export function buildLambdaLayer(
   );
   const archive = new pulumi.asset.FileArchive(zipPath);
 
-  const fullName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
-    opts.prefixProjectEnv !== false ? stack + "-" : ""
-  }${opts.name}-${versionHash}`;
-
   const optProvider = opts.awsProvider
     ? { provider: opts.awsProvider }
     : undefined;
 
   return new aws.lambda.LayerVersion(
-    opts.name,
+    `${pulumiResourceBaseName}-layer`,
     {
-      layerName: fullName,
+      layerName: pulumiResourceBaseName,
       code: archive,
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
