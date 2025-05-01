@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.3](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.0...0.5.3) (2025-05-01)
+
+### Bug Fixes
+
+- getNodeModulePackageJson CJS fix ([0939b6b](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/0939b6b5570db4e4ed9e36372661e477d635d0fd))
+- getNodeModulePackageJson CJS fix ([cd86e67](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/cd86e67be959b4f21c59195bc1b9121bdfdb0c80))
+- getNodeModulePackageJson for ESM and CJS ([43a572b](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/43a572bb076417093864270d22d14d5641f6a3fc))
+
 # [0.5.0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.7...0.5.0) (2025-05-01)
 
 ### Features

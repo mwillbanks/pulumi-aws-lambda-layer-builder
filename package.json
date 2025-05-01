@@ -1,6 +1,6 @@
 {
   "name": "@mwillbanks/pulumi-aws-lambda-layer-builder",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "license": "MIT",
   "description": "A Pulumi package for building AWS Lambda layers with TypeScript.",
   "keywords": [
