@@ -4,7 +4,7 @@ import * as aws from "@pulumi/aws";
 import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
-import { mkdirSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 
 export interface LayerBuilderImagePackageMgrOpts {
   repos: {
@@ -45,12 +45,17 @@ export function buildLambdaLayer(
   const project = pulumi.getProject();
   const stack = pulumi.getStack();
   const layerDir = path.join("layers", opts.name);
-  const dockerfile = renderDockerfile(opts);
-  const versionHash = hashContent(dockerfile);
+  const dockerfileContents = renderDockerfile(opts);
+  const versionHash = hashContent(dockerfileContents);
+  const dockerfilePath = path.join(
+    layerDir,
+    `${opts.name}-${versionHash}-Dockerfile`,
+  );
   const imageName = pulumi.interpolate`lambda-layer-${opts.name}-${versionHash}`;
   const imageArgs = opts.imageArgs || {};
 
   mkdirSync(layerDir, { recursive: true });
+  writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   // if process.env.HOME is not set, set it to the current working directory
   if (!process.env.HOME) {
@@ -62,7 +67,7 @@ export function buildLambdaLayer(
     name: imageName,
     build: {
       context: layerDir,
-      dockerfile: dockerfile,
+      dockerfile: dockerfilePath,
     },
   });
 
