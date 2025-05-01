@@ -52,6 +52,11 @@ export function buildLambdaLayer(
 
   mkdirSync(layerDir, { recursive: true });
 
+  // if process.env.HOME is not set, set it to the current working directory
+  if (!process.env.HOME) {
+    process.env.HOME = process.cwd();
+  }
+
   const image = new docker.RemoteImage(`${opts.name}-build`, {
     ...imageArgs,
     name: imageName,
