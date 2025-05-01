@@ -5,7 +5,6 @@ import * as docker from "@pulumi/docker";
 import * as path from "path";
 import { renderDockerfile, hashContent } from "./utils";
 import { mkdirSync, readFileSync, writeFileSync } from "fs";
-import { createRequire } from "module";
 
 export interface LayerBuilderImagePackageMgrOpts {
   repos: {
@@ -41,8 +40,15 @@ export type LayerBuilderPackageOpts =
   | "*"
   | undefined;
 
-const require_ =
-  typeof require !== "undefined" ? require : createRequire(import.meta.url);
+let require_: NodeJS.Require;
+
+if (typeof require !== "undefined") {
+  require_ = require;
+} else {
+  // Use eval to prevent TS parser errors in CJS mode
+  const createRequire = eval('require("module").createRequire');
+  require_ = createRequire(import.meta.url);
+}
 
 const getNodeModulePackageJson = (pkg: string): Record<string, any> => {
   const pkgPath = require_.resolve(`${pkg}/package.json`);
