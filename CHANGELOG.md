@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.1](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.4.0...0.4.1) (2025-05-01)
+
+### Bug Fixes
+
+- build issue, tests ([08f0564](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/08f056469c2acbe19b3b64949f0577ad7555c81a))
+
 # [0.4.0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.3.0...0.4.0) (2025-04-28)
 
 ### Features
