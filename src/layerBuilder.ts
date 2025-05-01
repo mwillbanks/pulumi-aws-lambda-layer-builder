@@ -47,7 +47,8 @@ if (typeof require !== "undefined") {
 } else {
   // Use eval to prevent TS parser errors in CJS mode
   const createRequire = eval('require("module").createRequire');
-  require_ = createRequire(import.meta.url);
+  const metaUrl = eval("import.meta.url");
+  require_ = createRequire(metaUrl);
 }
 
 const getNodeModulePackageJson = (pkg: string): Record<string, any> => {
