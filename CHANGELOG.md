@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.5](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.4...0.5.5) (2025-05-02)
+
+### Bug Fixes
+
+- remove region due to interpolation ([601071d](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/601071dd501876220499dd658dd6ca8b224cece7))
+
 ## [0.5.4](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.3...0.5.4) (2025-05-01)
 
 ### Bug Fixes
