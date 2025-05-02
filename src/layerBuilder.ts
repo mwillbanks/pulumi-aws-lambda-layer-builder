@@ -58,13 +58,12 @@ export function buildLambdaLayer(
   const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
     opts.prefixProjectEnv !== false ? stack + "-" : ""
   }${opts.name}-${versionHash}-${regionName}-${packageVersion}`;
+  writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   pulumi.log.info(
     `Building Lambda Layer ${pulumiResourceBaseName} with Dockerfile: ${dockerfilePath}`,
   );
   pulumi.log.info(`Dockerfile contents:\n${dockerfileContents}`);
-
-  writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   // if process.env.HOME is not set, set it to the current working directory
   if (!process.env.HOME) {
@@ -79,7 +78,7 @@ export function buildLambdaLayer(
     ...imageArgs,
     name: registryImage.then((img) => img.name),
     build: {
-      context: layerDir,
+      context: ".",
       dockerfile: dockerfilePath,
     },
   });
