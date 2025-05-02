@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.13](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.12...0.5.13) (2025-05-02)
+
+### Bug Fixes
+
+- missing xargs ([fb749d7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/fb749d7132920a995da98834806609087d15ec88))
+
 ## [0.5.12](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.11...0.5.12) (2025-05-02)
 
 ### Bug Fixes
