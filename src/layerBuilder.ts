@@ -91,7 +91,7 @@ export function buildLambdaLayer(
       image: image.repoDigest,
       mustRun: true,
       rm: true,
-      command: ["sleep", "10"], // Keep container alive briefly to extract file
+      command: ["sleep", "60"], // Keep container alive briefly to extract file
     },
     {
       dependsOn: [image],
