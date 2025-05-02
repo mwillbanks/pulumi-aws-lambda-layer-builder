@@ -30,7 +30,7 @@ function installPackageMgrDependencies(
       return [
         `RUN apt-get update`,
         `RUN apt-get install -y apt-utils`,
-        ...(manualPackages
+        ...(manualPackages.length
           ? [
               [`RUN mkdir -p /tmp/packages`],
               ...manualPackages.map(([pkg, url]) => {
@@ -47,7 +47,7 @@ function installPackageMgrDependencies(
       return [
         "RUN yum update -y",
         "RUN yum install -y yum-utils createrepo",
-        ...(manualPackages
+        ...(manualPackages.length
           ? [
               `RUN mkdir -p /tmp/packages`,
               ...manualPackages.map(([pkg, url]) => {
@@ -63,8 +63,8 @@ function installPackageMgrDependencies(
     case "dnf":
       return [
         "RUN dnf update -y",
-        "RUN dnf install -y dnf dnf-utils createrepo",
-        ...(manualPackages
+        "RUN dnf install -y dnf dnf-utils createrepo findutils",
+        ...(manualPackages.length
           ? [
               `RUN mkdir -p /tmp/packages`,
               ...manualPackages.map(([pkg, url]) => {
