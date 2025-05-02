@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.12](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.11...0.5.12) (2025-05-02)
+
+### Bug Fixes
+
+- change RemoteImage to Image ([507520f](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/507520ffee6accaa8f8ddf4ae747396e701321fd))
+
 ## [0.5.11](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.10...0.5.11) (2025-05-02)
 
 ### Bug Fixes
