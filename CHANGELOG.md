@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.9](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.8...0.5.9) (2025-05-02)
+
+### Bug Fixes
+
+- set context to root path ([861d46f](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/861d46fdb889753bd367f9f2f98bd04148625488))
+
 ## [0.5.8](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.7...0.5.8) (2025-05-02)
 
 ### Bug Fixes
