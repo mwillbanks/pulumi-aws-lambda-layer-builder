@@ -54,7 +54,7 @@ function installPackageMgrDependencies(
                 return `RUN wget -O /tmp/packages/${pkg}.rpm ${url}`;
               }),
               `RUN createrepo /tmp/packages`,
-              `RUN echo "[localrepo]\nname=Local Repo\nbaseurl=file:///tmp/packages\nenabled=1\ngpgcheck=0" > /etc/yum.repos.d/local.repo`,
+              `RUN echo "[localrepo]\\\nname=Local Repo\\\nbaseurl=file:///tmp/packages\\\nenabled=1\\\ngpgcheck=0" > /etc/yum.repos.d/local.repo`,
               `RUN yum makecache`,
             ]
           : []),
@@ -71,7 +71,7 @@ function installPackageMgrDependencies(
                 return `RUN wget -O /tmp/packages/${pkg}.rpm ${url}`;
               }),
               `RUN createrepo /tmp/packages`,
-              `RUN echo "[localrepo]\nname=Local Repo\nbaseurl=file:///tmp/packages\nenabled=1\ngpgcheck=0" > /etc/yum.repos.d/local.repo`,
+              `RUN echo "[localrepo]\\\nname=Local Repo\\\nbaseurl=file:///tmp/packages\\\nenabled=1\\\ngpgcheck=0" > /etc/yum.repos.d/local.repo`,
               `RUN dnf makecache`,
             ]
           : []),
