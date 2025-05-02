@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.11](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.10...0.5.11) (2025-05-02)
+
+### Bug Fixes
+
+- increase sleep time to 60s ([92e64d7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/92e64d79941bf91647646126ebd894ca85407979))
+
 ## [0.5.10](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.9...0.5.10) (2025-05-02)
 
 ### Bug Fixes
