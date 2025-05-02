@@ -70,13 +70,10 @@ export function buildLambdaLayer(
     process.env.HOME = process.cwd();
   }
 
-  const registryImage = docker.getRegistryImage({
-    name: opts.imageName as string,
-  });
-
-  const image = new docker.RemoteImage(`${pulumiResourceBaseName}-build`, {
+  const image = new docker.Image(`${pulumiResourceBaseName}-build`, {
     ...imageArgs,
-    name: registryImage.then((img) => img.name),
+    imageName: pulumiResourceBaseName,
+    skipPush: true,
     build: {
       context: ".",
       dockerfile: dockerfilePath,
