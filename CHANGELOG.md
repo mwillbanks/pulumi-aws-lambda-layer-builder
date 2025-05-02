@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.6](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.5...0.5.6) (2025-05-02)
+
+### Bug Fixes
+
+- because pull trigger doesnt work with build ([6251593](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/6251593fff475b881db3bde1045e0de8bdba9ad4))
+
 ## [0.5.5](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.4...0.5.5) (2025-05-02)
 
 ### Bug Fixes
