@@ -80,7 +80,6 @@ export function buildLambdaLayer(
       context: layerDir,
       dockerfile: dockerfilePath,
     },
-    pullTriggers: [registryImage.then((img) => img.sha256Digest)],
   });
 
   const containerName = `${pulumiResourceBaseName}-extract`;
