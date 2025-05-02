@@ -47,7 +47,8 @@ export function buildLambdaLayer(
   const project = pulumi.getProject();
   const stack = pulumi.getStack();
   const layerDir = path.join("layers", opts.name);
-  const regionName = opts.awsProvider?.region?.apply((r) => r) || "default";
+  // @ts-ignore regionName is a custom property
+  const regionName = opts.awsProvider?.regionName || "default";
   mkdirSync(layerDir, { recursive: true });
   const dockerfileContents = renderDockerfile(opts);
   const versionHash = hashContent(dockerfileContents);
