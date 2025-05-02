@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.10](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.9...0.5.10) (2025-05-02)
+
+### Bug Fixes
+
+- escape file output ([7591386](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/7591386207f7d090b33738cb7b551ac290c8906d))
+
 ## [0.5.9](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.8...0.5.9) (2025-05-02)
 
 ### Bug Fixes
