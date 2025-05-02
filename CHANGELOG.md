@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.8](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.7...0.5.8) (2025-05-02)
+
+### Bug Fixes
+
+- use string version of regionName ([f6ed530](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/f6ed530ad2e4ceaf623bc0b8024378a6c0281020))
+
 ## [0.5.7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.6...0.5.7) (2025-05-02)
 
 ### Bug Fixes
