@@ -47,6 +47,7 @@ export function buildLambdaLayer(
   const project = pulumi.getProject();
   const stack = pulumi.getStack();
   const layerDir = path.join("layers", opts.name);
+  const regionName = opts.awsProvider?.region?.apply((r) => r) || "default";
   mkdirSync(layerDir, { recursive: true });
   const dockerfileContents = renderDockerfile(opts);
   const versionHash = hashContent(dockerfileContents);
@@ -55,7 +56,7 @@ export function buildLambdaLayer(
 
   const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
     opts.prefixProjectEnv !== false ? stack + "-" : ""
-  }${opts.name}-${versionHash}-${packageVersion}`;
+  }${opts.name}-${versionHash}-${regionName}-${packageVersion}`;
 
   pulumi.log.info(
     `Building Lambda Layer ${pulumiResourceBaseName} with Dockerfile: ${dockerfilePath}`,
