@@ -29,7 +29,7 @@ function installPackageMgrDependencies(
     case "apt":
       return [
         `RUN apt-get update`,
-        `RUN apt-get install -y apt-utils`,
+        `RUN apt-get install -y apt-utils unzip zip`,
         ...(manualPackages.length
           ? [
               [`RUN mkdir -p /tmp/packages`],
@@ -46,7 +46,7 @@ function installPackageMgrDependencies(
     case "yum":
       return [
         "RUN yum update -y",
-        "RUN yum install -y yum-utils createrepo",
+        "RUN yum install -y yum-utils createrepo unzip zip",
         ...(manualPackages.length
           ? [
               `RUN mkdir -p /tmp/packages`,
@@ -63,7 +63,7 @@ function installPackageMgrDependencies(
     case "dnf":
       return [
         "RUN dnf update -y",
-        "RUN dnf install -y dnf dnf-utils createrepo findutils",
+        "RUN dnf install -y dnf dnf-utils createrepo findutils unzip zip",
         ...(manualPackages.length
           ? [
               `RUN mkdir -p /tmp/packages`,
@@ -92,7 +92,7 @@ export function renderDockerfile(opts: LayerBuilderOpts): string {
   for (const [pkg, config] of opts.packages) {
     if (config === "*") {
       lines.push(
-        `RUN repoquery --list ${pkg} | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c 'cp -r --parents $(echo {}) /tmp/layer || true'`,
+        `RUN repoquery --list ${pkg} | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c '(cp -r --parents $(echo {}) /tmp/layer || true)'`,
       );
     } else if (config) {
       const patterns: string[] = [];
@@ -103,7 +103,7 @@ export function renderDockerfile(opts: LayerBuilderOpts): string {
       if (config.conf) patterns.push("^/etc/");
       const regex = patterns.join("|");
       lines.push(
-        `RUN repoquery --list ${pkg} | grep -E '${regex}' | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c 'cp -r --parents $(echo {}) /tmp/layer || true'`,
+        `RUN repoquery --list ${pkg} | grep -E '${regex}' | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c '(cp -r --parents $(echo {}) /tmp/layer || true)'`,
       );
     }
   }
