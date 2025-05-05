@@ -113,25 +113,11 @@ export function buildLambdaLayer(
     ? { provider: opts.awsProvider }
     : undefined;
 
-  const layerAsset = Object.keys(commandResponse.assets)?.[0];
-  if (!layerAsset) {
-    pulumi.log.error(
-      `No assets found in command response. Check the command output for errors.`,
-    );
-    throw new Error("No assets found in command response.");
-  }
-  const layerAssetPath = commandResponse.assets.apply((assets) => {
-    if (!assets) {
-      throw new Error("No assets found in command response.");
-    }
-    return assets[layerAsset] as pulumi.asset.Asset;
-  });
-
   return new aws.lambda.LayerVersion(
     `${pulumiResourceBaseName}-layer`,
     {
       layerName: pulumiResourceBaseName,
-      code: layerAssetPath,
+      code: new pulumi.asset.FileAsset(zipPath),
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
