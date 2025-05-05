@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.15](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.14...0.5.15) (2025-05-05)
+
+### Bug Fixes
+
+- ignore version numbers use wildcard ([48fc0ea](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/48fc0ea5ebba2824975386cb51fbefdfbe335b60))
+
 ## [0.5.14](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.13...0.5.14) (2025-05-02)
 
 ### Bug Fixes
