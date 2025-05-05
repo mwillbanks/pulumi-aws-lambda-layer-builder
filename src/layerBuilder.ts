@@ -121,6 +121,9 @@ export function buildLambdaLayer(
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
-    optProvider,
+    {
+      ...optProvider,
+      dependsOn: [image, commandResponse],
+    },
   );
 }
