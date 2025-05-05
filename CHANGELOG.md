@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.16](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.15...0.5.16) (2025-05-05)
+
+### Bug Fixes
+
+- ignore files which do not exist ([bbc2a1b](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/bbc2a1b8077e7ba8468c2cd3646454dafe4be924))
+
 ## [0.5.15](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.14...0.5.15) (2025-05-05)
 
 ### Bug Fixes
