@@ -92,7 +92,7 @@ export function renderDockerfile(opts: LayerBuilderOpts): string {
   for (const [pkg, config] of opts.packages) {
     if (config === "*") {
       lines.push(
-        `RUN repoquery --list ${pkg} | grep -v '/.build-id' | xargs -r -I '{}' cp -r --parents '{}' /tmp/layer || true`,
+        `RUN repoquery --list ${pkg} | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c 'cp -r --parents $(echo {}) /tmp/layer || true'`,
       );
     } else if (config) {
       const patterns: string[] = [];
@@ -103,7 +103,7 @@ export function renderDockerfile(opts: LayerBuilderOpts): string {
       if (config.conf) patterns.push("^/etc/");
       const regex = patterns.join("|");
       lines.push(
-        `RUN repoquery --list ${pkg} | grep -E '${regex}' | grep -v '/.build-id' | xargs -r -I '{}' cp -r --parents '{}' /tmp/layer || true`,
+        `RUN repoquery --list ${pkg} | grep -E '${regex}' | grep -v '/.build-id' | sed 's/\\.[0-9][^/\\]*$/*/' | xargs -r -I '{}' sh -c 'cp -r --parents $(echo {}) /tmp/layer || true'`,
       );
     }
   }
