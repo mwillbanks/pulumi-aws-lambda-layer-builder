@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.17](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.16...0.5.17) (2025-05-05)
+
+### Bug Fixes
+
+- use zipPath for the file asset ([c60dfa0](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/c60dfa0230fb34f248314552fe2e2569bbca319b))
+
 ## [0.5.16](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.15...0.5.16) (2025-05-05)
 
 ### Bug Fixes
