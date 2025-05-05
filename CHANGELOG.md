@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.19](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.18...0.5.19) (2025-05-05)
+
+### Bug Fixes
+
+- try another way to generate the FileAsset ([1a1d845](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/1a1d84506414dfe1ae1274d721c10127101e07e9))
+
 ## [0.5.18](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.17...0.5.18) (2025-05-05)
 
 ### Bug Fixes
