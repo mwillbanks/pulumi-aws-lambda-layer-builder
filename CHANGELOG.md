@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.22](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.21...0.5.22) (2025-05-06)
+
+### Bug Fixes
+
+- update archive handling ([eee37cc](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/eee37ccb6bc2a37392e7fbf07f16b1a65805f200))
+
 ## [0.5.21](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.20...0.5.21) (2025-05-06)
 
 ### Bug Fixes
