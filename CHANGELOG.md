@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.20](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.19...0.5.20) (2025-05-06)
+
+### Bug Fixes
+
+- use FileArchive (it probably wont work) ([34858f7](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/34858f765d32c0fa4b9d088c44cb1e85a8142194))
+
 ## [0.5.19](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.18...0.5.19) (2025-05-05)
 
 ### Bug Fixes
