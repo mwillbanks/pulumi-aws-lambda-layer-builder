@@ -55,9 +55,11 @@ export function buildLambdaLayer(
   const dockerfilePath = path.join(layerDir, `${versionHash}-Dockerfile`);
   const imageArgs = opts.imageArgs || {};
 
+  // Sanitize packageVersion to remove invalid characters for Lambda layerName
+  const sanitizedVersion = packageVersion.replace(/\./g, "-");
   const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
     opts.prefixProjectEnv !== false ? stack + "-" : ""
-  }${opts.name}-${versionHash}-${regionName}-${packageVersion}`;
+  }${opts.name}-${versionHash}-${regionName}-${sanitizedVersion}`;
   writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   pulumi.log.info(
