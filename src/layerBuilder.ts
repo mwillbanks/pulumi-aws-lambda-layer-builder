@@ -117,9 +117,7 @@ export function buildLambdaLayer(
     `${pulumiResourceBaseName}-layer`,
     {
       layerName: pulumiResourceBaseName,
-      code: commandResponse.stdout.apply(
-        () => new pulumi.asset.FileAsset(zipPath),
-      ),
+      code: new pulumi.asset.FileArchive(zipPath),
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
