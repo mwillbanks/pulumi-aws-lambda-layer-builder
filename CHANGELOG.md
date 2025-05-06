@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.21](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.20...0.5.21) (2025-05-06)
+
+### Bug Fixes
+
+- layer name validation ([a27c361](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/a27c361e367137d699f6e94b5e5cf924b21e62b9))
+
 ## [0.5.20](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.19...0.5.20) (2025-05-06)
 
 ### Bug Fixes
