@@ -96,15 +96,16 @@ export function buildLambdaLayer(
       dependsOn: [image],
     },
   );
-  const zipPath = path.join(layerDir, `${opts.name}.zip`);
-  const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer/${opts.name}.zip ${zipPath}`;
+
+  const extractDir = path.join(layerDir, "layer");
+  const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer ${extractDir}`;
   const commandResponse = new local.Command(
-    `${pulumiResourceBaseName}-copy-zip`,
+    `${pulumiResourceBaseName}-extract-layer`,
     {
       create: extractCommand,
-      delete: pulumi.interpolate`rm -f ${zipPath}`,
+      delete: pulumi.interpolate`rm -rf ${extractDir}`,
       triggers: [container],
-      assetPaths: [zipPath],
+      assetPaths: [extractDir],
     },
     {
       dependsOn: [container],
@@ -119,7 +120,7 @@ export function buildLambdaLayer(
     `${pulumiResourceBaseName}-layer`,
     {
       layerName: pulumiResourceBaseName,
-      code: new pulumi.asset.FileArchive(zipPath),
+      code: new pulumi.asset.FileArchive(extractDir),
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
