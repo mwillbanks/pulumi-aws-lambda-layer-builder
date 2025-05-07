@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.23](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.22...0.5.23) (2025-05-07)
+
+### Bug Fixes
+
+- change layer provider logic ([e8db4e5](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/commit/e8db4e538be9316451f6cb2a669d4ccf73584d94))
+
 ## [0.5.22](https://github.com/mwillbanks/pulumi-aws-lambda-layer-builder/compare/0.5.21...0.5.22) (2025-05-06)
 
 ### Bug Fixes
