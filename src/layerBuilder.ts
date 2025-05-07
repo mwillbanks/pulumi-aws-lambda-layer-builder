@@ -59,7 +59,8 @@ export function buildLambdaLayer(
   const sanitizedVersion = packageVersion.replace(/\./g, "-");
   const pulumiResourceBaseName = `${opts.prefixProjectName !== false ? project + "-" : ""}${
     opts.prefixProjectEnv !== false ? stack + "-" : ""
-  }${opts.name}-${versionHash}-${regionName}-${sanitizedVersion}`;
+  }${opts.name}-${versionHash}-${sanitizedVersion}`;
+  const pulumiResourceRegionName = `${pulumiResourceBaseName}-${regionName}`;
   writeFileSync(dockerfilePath, dockerfileContents, { encoding: "utf-8" });
 
   pulumi.log.info(
@@ -112,20 +113,17 @@ export function buildLambdaLayer(
     },
   );
 
-  const optProvider = opts.awsProvider
-    ? { provider: opts.awsProvider }
-    : undefined;
-
   return new aws.lambda.LayerVersion(
-    `${pulumiResourceBaseName}-layer`,
+    `${pulumiResourceRegionName}-layer`,
     {
-      layerName: pulumiResourceBaseName,
+      layerName: pulumiResourceRegionName,
       code: new pulumi.asset.FileArchive(extractDir),
       compatibleRuntimes: opts.runtimes,
       compatibleArchitectures: opts.architectures,
     },
     {
-      ...optProvider,
+      provider:
+        typeof opts.awsProvider !== "undefined" ? opts.awsProvider : undefined,
       dependsOn: [image, commandResponse],
     },
   );
