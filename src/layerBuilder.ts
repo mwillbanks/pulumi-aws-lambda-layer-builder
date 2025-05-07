@@ -73,9 +73,9 @@ export function buildLambdaLayer(
     process.env.HOME = process.cwd();
   }
 
-  const image = new docker.Image(`${pulumiResourceBaseName}-build`, {
+  const image = new docker.Image(`${pulumiResourceRegionName}-build`, {
     ...imageArgs,
-    imageName: pulumiResourceBaseName,
+    imageName: pulumiResourceRegionName,
     skipPush: true,
     build: {
       context: ".",
@@ -83,7 +83,7 @@ export function buildLambdaLayer(
     },
   });
 
-  const containerName = `${pulumiResourceBaseName}-extract`;
+  const containerName = `${pulumiResourceRegionName}-extract`;
   const container = new docker.Container(
     `${containerName}`,
     {
@@ -101,7 +101,7 @@ export function buildLambdaLayer(
   const extractDir = path.join(layerDir, "layer");
   const extractCommand = pulumi.interpolate`docker cp ${containerName}:/tmp/layer ${extractDir}`;
   const commandResponse = new local.Command(
-    `${pulumiResourceBaseName}-extract-layer`,
+    `${pulumiResourceRegionName}-extract-layer`,
     {
       create: extractCommand,
       delete: pulumi.interpolate`rm -rf ${extractDir}`,
